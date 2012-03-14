@@ -1,0 +1,10 @@
+[03-Sep-2008 11:58:38] PHP Warning:  Unknown(): Unable to load dynamic library 'C:\php-4.4.9\extensions\php_mcrypt.dll' - The specified module could not be found.
+ in Unknown on line 0
+[03-Sep-2008 11:59:25] PHP Warning:  Unknown(): Unable to load dynamic library 'C:\php-4.4.9\extensions\php_mcrypt.dll' - The specified module could not be found.
+ in Unknown on line 0
+[03-Sep-2008 11:59:29] PHP Warning:  Unknown(): Unable to load dynamic library 'C:\php-4.4.9\extensions\php_mcrypt.dll' - The specified module could not be found.
+ in Unknown on line 0
+[03-Sep-2008 11:59:36] PHP Warning:  Unknown(): Unable to load dynamic library 'C:\php-4.4.9\extensions\php_mcrypt.dll' - The specified module could not be found.
+ in Unknown on line 0
+[03-Sep-2008 11:59:47] PHP Warning:  Unknown(): Unable to load dynamic library 'C:\php-4.4.9\extensions\php_mcrypt.dll' - The specified module could not be found.
+ in Unknown on line 0

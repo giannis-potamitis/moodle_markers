@@ -1,0 +1,23 @@
+http://localhost/moodle/local/markers/assignmarkers.php?cid=2
+
+
+http://localhost/moodle/mod/assignment/submissions.php?id=14&userid=3&mode=single&filter=0&offset=4&type=0&assignid=1&behalf=0
+
+behalf = 0 if current user who marks is the same as the markerid. if it is = 1 then the marker is a teacher/admin of course
+
+
+
+
+links:
+http://localhost/moodle/local/markers/assignmarkers.php?cid=2
+
+
+Teacher mark:
+http://localhost/moodle/mod/assignment/submissions.php?id=30&userid=3&mode=single&filter=0&offset=0&type=0&assignid=1&behalf=0&rcid=2&raid=23&rsid=0
+
+Marker 1 mark:
+http://localhost/moodle/mod/assignment/submissions.php?id=30&userid=3&mode=single&filter=0&offset=0&type=0&assignid=2&behalf=0&rcid=2&raid=23&rsid=0
+
+Agreeded mark:
+http://localhost/moodle/mod/assignment/submissions.php?id=30&userid=3&mode=single&filter=0&offset=0&type=1&assignid=1&behalf=0&rcid=2&raid=23&rsid=0
+

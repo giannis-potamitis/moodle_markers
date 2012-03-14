@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="local/markers/db" VERSION="20111228" COMMENT="XMLDB file for Moodle local/markers"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="markers_setup" COMMENT="Default comment for the table, please edit me" NEXT="markers_assign">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="assignmentid"/>
+        <FIELD NAME="assignmentid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="id"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="foreigh_assignmentid"/>
+        <KEY NAME="foreigh_assignmentid" TYPE="unique" FIELDS="assignmentid" PREVIOUS="primary"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="markers_assign" COMMENT="Default comment for the table, please edit me" PREVIOUS="markers_setup" NEXT="markers_map">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="courseid"/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="id" NEXT="studentid"/>
+        <FIELD NAME="studentid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="courseid" NEXT="markerid"/>
+        <FIELD NAME="markerid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="studentid" NEXT="role"/>
+        <FIELD NAME="role" TYPE="text" LENGTH="medium" NOTNULL="true" SEQUENCE="false" PREVIOUS="markerid"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="foreign_courseid"/>
+        <KEY NAME="foreign_courseid" TYPE="foreign" FIELDS="courseid" REFTABLE="course" REFFIELDS="id" PREVIOUS="primary" NEXT="foreigh_studentid"/>
+        <KEY NAME="foreigh_studentid" TYPE="foreign" FIELDS="studentid" REFTABLE="user" REFFIELDS="id" PREVIOUS="foreign_courseid" NEXT="foreigh_markerid"/>
+        <KEY NAME="foreigh_markerid" TYPE="foreign" FIELDS="markerid" REFTABLE="user" REFFIELDS="id" PREVIOUS="foreigh_studentid"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="markers_map" COMMENT="Default comment for the table, please edit me" PREVIOUS="markers_assign" NEXT="markers_assess">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="setupid"/>
+        <FIELD NAME="setupid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="id" NEXT="assignid"/>
+        <FIELD NAME="assignid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="setupid" NEXT="type"/>
+        <FIELD NAME="type" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="false" DEFAULT="-1" SEQUENCE="false" COMMENT="0: individual 1: agreeded" PREVIOUS="assignid" NEXT="status"/>
+        <FIELD NAME="status" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="false" DEFAULT="-1" SEQUENCE="false" COMMENT="0: pending 1: completed" PREVIOUS="type" NEXT="endmarkerid"/>
+        <FIELD NAME="endmarkerid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="status" NEXT="altmarkerid"/>
+        <FIELD NAME="altmarkerid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="endmarkerid" NEXT="allowedit"/>
+        <FIELD NAME="allowedit" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="true" DEFAULT="1" SEQUENCE="false" COMMENT="0: no 1: yes" PREVIOUS="altmarkerid"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="foreign_setupid"/>
+        <KEY NAME="foreign_setupid" TYPE="foreign" FIELDS="setupid" REFTABLE="markers_setup" REFFIELDS="id" PREVIOUS="primary" NEXT="foreign_assignid"/>
+        <KEY NAME="foreign_assignid" TYPE="foreign" FIELDS="assignid" REFTABLE="markers_assign" REFFIELDS="id" PREVIOUS="foreign_setupid" NEXT="foreign_altmarkerid"/>
+        <KEY NAME="foreign_altmarkerid" TYPE="foreign" FIELDS="altmarkerid" REFTABLE="user" REFFIELDS="id" PREVIOUS="foreign_assignid" NEXT="foreign_endmarkerid"/>
+        <KEY NAME="foreign_endmarkerid" TYPE="foreign" FIELDS="endmarkerid" REFTABLE="user" REFFIELDS="id" PREVIOUS="foreign_altmarkerid"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="markers_assess" COMMENT="Default comment for the table, please edit me" PREVIOUS="markers_map" NEXT="markers_subassess">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="mapid"/>
+        <FIELD NAME="mapid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="id" NEXT="categoryid"/>
+        <FIELD NAME="categoryid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="false" DEFAULT="0" SEQUENCE="false" COMMENT="-1 if is a total mark OR category id if it is a category" PREVIOUS="mapid" NEXT="grade"/>
+        <FIELD NAME="grade" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="categoryid" NEXT="feedback"/>
+        <FIELD NAME="feedback" TYPE="text" LENGTH="big" NOTNULL="false" SEQUENCE="false" PREVIOUS="grade"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="foreign_mapid"/>
+        <KEY NAME="foreign_mapid" TYPE="foreign" FIELDS="mapid" REFTABLE="markers_map" REFFIELDS="id" PREVIOUS="primary" NEXT="foreign_categoryid"/>
+        <KEY NAME="foreign_categoryid" TYPE="foreign" FIELDS="categoryid" REFTABLE="mycat_category" REFFIELDS="id" PREVIOUS="foreign_mapid"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="markers_subassess" COMMENT="markers_subassess" PREVIOUS="markers_assess">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="mapid"/>      
+        <FIELD NAME="mapid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" PREVIOUS="foreign_mapid"/>
+        <KEY NAME="foreign_mapid" TYPE="foreign" FIELDS="mapid" REFTABLE="markers_map" REFFIELDS="id" PREVIOUS="primary"/>        
+      </KEYS>      
+    </TABLE>
+  </TABLES>
+</XMLDB>

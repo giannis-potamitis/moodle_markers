@@ -1,0 +1,4 @@
+<?php
+    $string['pluginname'] = 'Multiple Markers';
+    $string['markers'] = 'Multiple Markers';
+?>
