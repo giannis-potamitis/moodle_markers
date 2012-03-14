@@ -1,7 +1,0 @@
-<?php
-
-$obj = null;
-foreach ($obj as $theobj) {
-	echo 'dont: ' . $theobj->id . '<br/>';
-}
-echo 'success\n';
